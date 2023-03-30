@@ -25,7 +25,10 @@ class Game_logic:
             winning_number = random.randint(1,5)
             winning_number = 4
             data_handler.add_history(winning_number)
+
+
             print("Winners :", end = " ")
+            # discord_bot.message_winners(self.bets[winning_number])
             for player in self.bets[winning_number]:
                 data_handler.add_score(str(player))
                 print(player, end = ", ")
@@ -40,7 +43,7 @@ class Game_logic:
                 4 : [],
                 5 : []
             }   
-            await asyncio.sleep(7)
+            await asyncio.sleep(10)
 
         
 

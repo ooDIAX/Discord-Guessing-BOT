@@ -37,40 +37,29 @@ def init_logging(logger):
 app = flask.Flask(__name__)
 
 # main route
-@app.route('/')
+@app.route('/', methods=["GET", "POST"])
 def index():
-    history = data_handler.get_history()
-
-    return flask.render_template('main.html', history = history)
-
-@app.route('/leaderboard', methods=['GET'])
-def leaderboard():
-
-    # connect to the PostgreSQL server
-    logging.info('Connecting to the PostgreSQL database...')
-    conn = psycopg2.connect(host=os.getenv('POSTGRES_HOST_EXTERNAL'),
-                            database=os.getenv('POSTGRES_DB'),
-                            user=os.getenv('POSTGRES_USER'),
-                            password=os.getenv('POSTGRES_PASSWORD'))
-
-    logging.info('Connected.')
-
-    # read products from database
-    logging.info('Reading data...')
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM leaderboard ORDER BY score DESC')
-    
-    rows = cur.fetchall()
-
+    rows = data_handler.get_leaderboard()
     # render products template
-    html = flask.render_template('leaderboard.html', products=rows)
+    html = flask.render_template('leaderboard.jinja2', products=rows)
 
-    # close the communication with the PostgreSQL
-    cur.close()
-    conn.close()
-    logging.info('Done.')
 
     return html
+
+    # history = data_handler.get_history()
+
+    # return flask.render_template("game.jinja2", rest=3)
+
+    # return flask.render_template('main.html', history = history)
+
+@app.route("/game")
+def game():
+    
+    history = data_handler.get_history()
+
+    return flask.render_template("game.jinja2", rest=10, history = history)
+
+
 
 
 if __name__ == '__main__':

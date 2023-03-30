@@ -22,8 +22,9 @@ def generate_players():
     # last_names = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez']
 
     for i in range(10):
-        id = os.urandom(8).hex()
-        name = names[i % 10]
+        id = os.urandom(4).hex()
+        discordid = random.randint(1000,9999)
+        name = names[i % 10] + '#' + str(discordid)
         customers.append((id, name, random.randint(1,23)))
 
     return customers
@@ -98,6 +99,24 @@ def add_score(name):
     cur.close()
     conn.close()
 
+def get_leaderboard():
+    # connect to the PostgreSQL server
+    conn = psycopg2.connect(host=os.getenv('POSTGRES_HOST_EXTERNAL'),
+                            database=os.getenv('POSTGRES_DB'),
+                            user=os.getenv('POSTGRES_USER'),
+                            password=os.getenv('POSTGRES_PASSWORD'))
+
+    # read products from database
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM leaderboard ORDER BY score DESC')
+    
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+    # render products template
+
+    return rows
+    
 
 
 if __name__ == '__main__':
