@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from game_logic import Game_logic
 import asyncio
 import typing
+import data_handler
 
 # create logger
 def init_logging(logger):
@@ -64,9 +65,17 @@ class MyClient(discord.Client):
                     # self.game_logic.game_loop()
 
                 else:
-                    logger.info(f"Classified as an unknown command: {comm}")
-                    await message.channel.send("other")
+                    logger.info(f"leaderboard: {comm}")
+                    lb = data_handler.get_leaderboard()
+                    print(lb)
+                    message_str = "Top 5 Leaderboard:\n"
+                    for ind in range(5):
+                        message_str += lb[ind][1] + "  " + str(lb[ind][2])
+                        message_str += "\n"
+
+                    await message.channel.send("```" + message_str + "```")
                     logger.info(comm)
+
             except Exception as e:
                 logging.error("Exception in classify!")
                 
