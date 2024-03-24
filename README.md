@@ -1,4 +1,4 @@
-Discord Guessing Game
+**Discord Guessing Game**
 Welcome to the Discord Guessing Game! This project aims to provide an engaging and interactive experience for users on Discord servers through a guessing game integrated with a web interface.
 
 Features
