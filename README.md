@@ -1,6 +1,6 @@
 # ***DISCORD GUESSING GAME***
 
-Welcome to the Discord Guessing Game Bot!
+Welcome to the Discord Guessing Game Bot!!
 
 ### **How to setup**
 
